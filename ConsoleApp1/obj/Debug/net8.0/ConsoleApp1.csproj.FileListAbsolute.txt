@@ -1,0 +1,17 @@
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/bin/Debug/net8.0/ConsoleApp1
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/bin/Debug/net8.0/ConsoleApp1.deps.json
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/bin/Debug/net8.0/ConsoleApp1.runtimeconfig.json
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/bin/Debug/net8.0/ConsoleApp1.dll
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/bin/Debug/net8.0/ConsoleApp1.pdb
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.GeneratedMSBuildEditorConfig.editorconfig
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.AssemblyInfoInputs.cache
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.AssemblyInfo.cs
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.csproj.CoreCompileInputs.cache
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.dll
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/refint/ConsoleApp1.dll
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.pdb
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.genruntimeconfig.cache
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ref/ConsoleApp1.dll
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.csproj.AssemblyReference.cache
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.csproj.CopyComplete
