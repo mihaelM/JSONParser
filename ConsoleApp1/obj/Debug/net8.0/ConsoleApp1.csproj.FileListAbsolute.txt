@@ -15,3 +15,4 @@
 /home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.csproj.AssemblyReference.cache
 /home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/bin/Debug/net8.0/Newtonsoft.Json.dll
 /home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.csproj.CopyComplete
+/home/mihael/Desktop/parsejsondotnet2/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.sourcelink.json
