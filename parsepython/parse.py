@@ -37,27 +37,40 @@ def deleteNodesAffectedByOnlyMMSProtection(data):
 #MITM attack which sends a command to IED
 # <-> data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["3"]["title"]
 
-
-def deleteNodesAffectedBYGOOSEandMMSProtection(data):
+def deleteNodesAffectedByGOOSEandMMSProtection(data):
     data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["1"]["ideas"].pop("1")
     data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["1"]["ideas"].pop("2")
     data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["1"]["ideas"].pop("7")
     data["ideas"]["1"]["ideas"]["0.75"]["ideas"].pop("3")
 
 
-def outputData(data):
-    f = open('output/SabotageSAS_withProtection.mup', 'w')
+#Directly send a command to circuit breaker IED with process bus rogue device
+# <-> data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["2"]["ideas"]["1"]["title"]
+#Directly send a command to circuit breaker IED from process bus switch
+# <-> data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["2"]["ideas"]["5"]["title"]
+#MTIM attack which sends a command to circuit breaker IED
+# <-> data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["4"]["title"]
+
+def deleteNodesAffectedByOnlyGOOSEProtection(data):
+    data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["2"]["ideas"].pop("1")
+    data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["2"]["ideas"].pop("5")
+    data["ideas"]["1"]["ideas"]["0.75"]["ideas"].pop("4")
+
+def outputData(data, whichProtection):
+    f = open('output/SabotageSAS_withProtection{}.mup'.format(whichProtection), 'w')
     json.dump(data, f)
     f.close()
 
-f = open('jsonfile/SabotageSAS.mup', 'r')
-data = json.load(f)
+#f = open('jsonfile/SabotageSAS.mup', 'r')
+#data = json.load(f)
 
 #deleteNodesAffectedBySMVProtection(data)
-#outputData(data)
-#print(data["ideas"]["1"]["ideas"]["0.5625"]["ideas"]["2"]["ideas"]["1"]["title"])
-#print(data["ideas"]["1"]["ideas"]["0.5625"]["ideas"]["4"]["title"])
-#print(data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["1"]["ideas"]["1"]["title"])
-#print (data["ideas"]["1"]["ideas"]["0.75"]["ideas"]["3"]["title"])
+#outputData(data, "SMV")
+#deleteNodesAffectedByOnlyMMSProtection(data)
+#outputData(data, "OnlyMMS")
+#deleteNodesAffectedByGOOSEandMMSProtection(data)
+#outputData(data, "GOOSEandMMS")
+#deleteNodesAffectedByOnlyGOOSEProtection(data)
+#outputData(data, "OnlyGOOSE")
 
-f.close()
+#f.close()
