@@ -41,9 +41,25 @@ def parseJson(data):
             resultingDict[title]["children"] = parseJson(currDict)
     return resultingDict
 
+# "Directly send manipulated measurement values to IED with process bus rogue device"
+# "Directly send manipulated measurement values to IED from process bus switch"
+# "MITM attack which manipulates measurement values sent to IED"
+def deleteNodesAffectedBySMVProtectionOurTree(resDict):
+    resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to IED"]["children"].pop("Directly send manipulated measurement values to IED with process bus rogue device")
+    resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to IED"]["children"].pop("Directly send manipulated measurement values to IED from process bus switch")
+    resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"].pop("MITM attack which manipulates measurement values sent to IED")
+
+    #data["ideas"]['1']['ideas']["0.5625"]["ideas"]["1"]["ideas"].pop("1")
+    #data["ideas"]['1']['ideas']["0.5625"]["ideas"]["1"]["ideas"].pop("3")
+    #data["ideas"]["1"]["ideas"]["0.5625"]["ideas"].pop("3")
+    #replace measuerment with measurement
+
 f = open('jsonfile/SabotageSAS.mup', 'r')
 data = json.load(f)
 
 #dobro, čini se da mi od ovih vršnih podataka ne treba ništa
 resDict = parseJson(data)
-print(resDict)
+print (resDict)
+
+deleteNodesAffectedBySMVProtectionOurTree(resDict)
+print (resDict)
