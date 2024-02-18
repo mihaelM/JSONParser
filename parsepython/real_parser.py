@@ -80,7 +80,11 @@ def deleteNodesAffectedByOnlyGOOSEProtection(resDict):
 
 
 def includeProtectionRecursively(relevantDict, protectionName):
-    relevantDict["protection"] = protectionName
+    if "protection" in relevantDict:
+        relevantDict["protection"].add(protectionName)
+    else:
+        relevantDict["protection"] = []
+        relevantDict["protection"].add(protectionName)
     if "children" in relevantDict: #even though there is an option for empty children, it seems that sometimes there is no children, also maybe there is a problem with AND
         for child in relevantDict["children"]:
             includeProtectionRecursively(relevantDict["children"][child], protectionName)
@@ -90,13 +94,34 @@ def embedSMVProtectionOurTree(resDict):
     protectionName = "protect_SMV_with_MAC"
     relevantSubTree1 = resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to IED"]["children"]["Directly send manipulated measurement values to IED with process bus rogue device"]
     includeProtectionRecursively(relevantSubTree1, protectionName)
-
     relevantSubTree2 = resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to IED"]["children"]["Directly send manipulated measurement values to IED from process bus switch"]
     includeProtectionRecursively(relevantSubTree2, protectionName)
-
     relevantSubTree3 = resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["MITM attack which manipulates measurement values sent to IED"]
     includeProtectionRecursively(relevantSubTree3, protectionName)
 
+def embedMMSProtectionOurTree(resDict):
+    protectionName = "protect_MMS_with_TLS"
+    relevantSubTree1 = resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to the SCADA"]["children"]["Directly send manipulated measurement values to the SCADA with station bus rogue device"]
+    includeProtectionRecursively(relevantSubTree1, protectionName)
+    relevantSubTree2 = resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to the SCADA"]["children"]["Directly send manipulated measurement values to the SCADA from corporate WAN"]
+    includeProtectionRecursively(relevantSubTree2, protectionName)
+    relevantSubTree3 = resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to the SCADA"]["children"]["Directly send manipulated measurement values to the SCADA from station bus switch"]
+    includeProtectionRecursively(relevantSubTree3, protectionName)
+    relevantSubTree4 = resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["MITM attack which manipulates measurement values sent to the SCADA"]
+    includeProtectionRecursively(relevantSubTree4, protectionName)
+
+#i think we need to do with sets, enable more protections
+def embedGOOSEandMMSProtectionOurTree(resDict):
+    protectionName1 = "protect_GOOSE_with_MAC"
+    protectionName2 = "protect_MMS_with_TLS"
+    relevantSubTree1 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["Directly send a command to IED"]["children"]["Directly send a command to IED with station bus rogue device"]
+    includeProtectionRecursively(relevantSubTree1, protectionName1)
+    includeProtectionRecursively(relevantSubTree1, protectionName2)
+    #TODO
+
+
+def embedGOOSEProtectionOurTree(resDict):
+    pass
 
 f = open('jsonfile/SabotageSAS.mup', 'r')
 data = json.load(f)
@@ -114,6 +139,3 @@ embedSMVProtectionOurTree(resDict)
 print (resDict)
 
 #the next task currently is try to put protections within the tree itself
-
-
-
