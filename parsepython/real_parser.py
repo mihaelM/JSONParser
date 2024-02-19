@@ -81,10 +81,10 @@ def deleteNodesAffectedByOnlyGOOSEProtection(resDict):
 
 def includeProtectionRecursively(relevantDict, protectionName):
     if "protection" in relevantDict:
-        relevantDict["protection"].add(protectionName)
+        relevantDict["protection"].append(protectionName)
     else:
         relevantDict["protection"] = []
-        relevantDict["protection"].add(protectionName)
+        relevantDict["protection"].append(protectionName)
     if "children" in relevantDict: #even though there is an option for empty children, it seems that sometimes there is no children, also maybe there is a problem with AND
         for child in relevantDict["children"]:
             includeProtectionRecursively(relevantDict["children"][child], protectionName)
@@ -117,11 +117,26 @@ def embedGOOSEandMMSProtectionOurTree(resDict):
     relevantSubTree1 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["Directly send a command to IED"]["children"]["Directly send a command to IED with station bus rogue device"]
     includeProtectionRecursively(relevantSubTree1, protectionName1)
     includeProtectionRecursively(relevantSubTree1, protectionName2)
-    #TODO
+    relevantSubTree2 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["Directly send a command to IED"]["children"]["Directly send a command to IED from corporate WAN"]
+    includeProtectionRecursively(relevantSubTree2, protectionName1)
+    includeProtectionRecursively(relevantSubTree2, protectionName2)
+    relevantSubTree3 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["Directly send a command to IED"]["children"]["Directly send a command to IED from station bus switch"]
+    includeProtectionRecursively(relevantSubTree3, protectionName1)
+    includeProtectionRecursively(relevantSubTree3, protectionName2)
+    relevantSubTree4 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["MITM attack which sends a command to IED"]
+    includeProtectionRecursively(relevantSubTree4, protectionName1)
+    includeProtectionRecursively(relevantSubTree4, protectionName2)
 
 
 def embedGOOSEProtectionOurTree(resDict):
-    pass
+    protectionName = "protect_GOOSE_with_MAC"
+    relevantSubTree1 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"][ "Directly send a command to circuit breaker IED"]["children"]["Directly send a command to circuit breaker IED with process bus rogue device"]
+    includeProtectionRecursively(relevantSubTree1, protectionName)
+    relevantSubTree2 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"][ "Directly send a command to circuit breaker IED"]["children"]["Directly send a command to circuit breaker IED from process bus switch"]
+    includeProtectionRecursively(relevantSubTree2, protectionName)
+    relevantSubTree3 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["MITM attack which sends a command to circuit breaker IED"]
+    includeProtectionRecursively(relevantSubTree3, protectionName)
+
 
 f = open('jsonfile/SabotageSAS.mup', 'r')
 data = json.load(f)
@@ -136,6 +151,8 @@ resDict = parseJson(data)
 #deleteNodesAffectedByOnlyGOOSEProtection(resDict)
 
 embedSMVProtectionOurTree(resDict)
-print (resDict)
+embedMMSProtectionOurTree(resDict)
+embedGOOSEandMMSProtectionOurTree(resDict)
+embedGOOSEProtectionOurTree(resDict)
 
-#the next task currently is try to put protections within the tree itself
+print(resDict)
