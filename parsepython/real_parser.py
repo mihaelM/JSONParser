@@ -34,6 +34,8 @@ def parseJson(data):
         resultingDict[title]["shape"] = shape
         if "ideas" in currDict:
             resultingDict[title]["children"] = parseJson(currDict)
+        else:
+            resultingDict[title]["children"] = []
     return resultingDict
 
 
@@ -85,9 +87,9 @@ def includeProtectionRecursively(relevantDict, protectionName):
     else:
         relevantDict["protection"] = []
         relevantDict["protection"].append(protectionName)
-    if "children" in relevantDict: #even though there is an option for empty children, it seems that sometimes there is no children, also maybe there is a problem with AND
-        for child in relevantDict["children"]:
-            includeProtectionRecursively(relevantDict["children"][child], protectionName)
+
+    for child in relevantDict["children"]:
+        includeProtectionRecursively(relevantDict["children"][child], protectionName)
 
 
 def embedSMVProtectionOurTree(resDict):
