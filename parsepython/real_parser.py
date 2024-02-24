@@ -39,6 +39,44 @@ def parseJson(data):
     return resultingDict
 
 
+def generateAttrDictionary(shape, position):
+    genAttrDict = {}
+    genAttrDict["style"] = {}
+    genAttrDict["style"]["text"] = {}
+    if not (position == []):
+        genAttrDict["position"] = position
+
+    if shape == "rhombus":
+        genAttrDict["style"]["backgroundColor"] = "#000000"
+        genAttrDict["style"]["text"]["color"] = "#FFFFFF"
+    elif shape == "circle":
+        genAttrDict["style"]["backgroundColor"] = "#E0E0E0"
+        genAttrDict["style"]["text"]["color"] = "#4F4F4F"
+    elif shape == "hexagon":
+        genAttrDict["style"]["backgroundColor"] = "#FFFFFF"
+        genAttrDict["style"]["text"]["color"] = "#000000"
+    return genAttrDict
+
+#for the beginning just try to get something that is kind of mup (it does not necessary have to open, but it is the end goal currently)
+#does not work, maybe because of id
+#i enabled id still does not work
+some_number = 0
+def parseJsonBackToMup(title, dataDict):
+    global some_number
+    resultingMupDict = {}
+    resultingMupDict["title"] = title
+    resultingMupDict["id"] = some_number + 1
+    resultingMupDict["attr"] = generateAttrDictionary(dataDict["shape"], dataDict["position"])
+    resultingMupDict["ideas"] = {}
+
+    for child in dataDict["children"]:
+        some_number = some_number + 1
+        resultingMupDict["ideas"][some_number] = parseJsonBackToMup(child, dataDict["children"][child])
+
+    return resultingMupDict
+
+
+
 # "Directly send manipulated measurement values to IED with process bus rogue device"
 # "Directly send manipulated measurement values to IED from process bus switch"
 # "MITM attack which manipulates measurement values sent to IED"
@@ -156,5 +194,20 @@ embedSMVProtectionOurTree(resDict)
 embedMMSProtectionOurTree(resDict)
 embedGOOSEandMMSProtectionOurTree(resDict)
 embedGOOSEProtectionOurTree(resDict)
+#print(resDict)
 
-print(resDict)
+title = "Sabotage IEC 61850 SAS"
+resultingMupDict = parseJsonBackToMup(title, resDict[title])
+finalResultingMupDict = {}
+#not only ideas, but also coold add "id" #root" and so on
+finalResultingMupDict["attr"] = {}
+finalResultingMupDict["attr"]["theme"] = "straightlines"
+finalResultingMupDict["formatVersion"] = 3
+finalResultingMupDict["id"] = "root"
+finalResultingMupDict["ideas"] = {}
+finalResultingMupDict["ideas"]["1"] = resultingMupDict
+finalResultingMupDict["title"] = "Compromise (P)RNG Somehow"
+finalResultingMupDict["links"] = []
+
+finalJson = json.dumps(finalResultingMupDict)
+print (finalJson)
