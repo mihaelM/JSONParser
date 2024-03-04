@@ -118,6 +118,15 @@ def deleteNodesAffectedByOnlyGOOSEProtection(resDict):
     resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"].pop("MITM attack which sends a command to circuit breaker IED")
 
 
+#is it really necessary to cut all or just proof of concept
+#maybe, we actually can, think of smarter way
+#we dfs through the tree and just when we first see rogue device we cut from there, seems good currently
+def deleteNodesAffectedByDisablyingRougeDevice(resDict):
+    resDict["Sabotage IEC 61850 SAS"]["children"]["Perform DoS attack"]["children"]["Perform DoS attack on the SCADA"]["children"].pop("DoS SCADA with station bus rogue device")
+    #DoS from corporate WAN also has possibility to be from rouge device on lower levels
+    #IED and stat. switch even more obvious possibility
+    pass
+
 
 def includeProtectionRecursively(relevantDict, protectionName):
     if "protection" in relevantDict:
