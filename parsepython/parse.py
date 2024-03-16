@@ -54,7 +54,7 @@ def deleteNodesAffectedByOnlyGOOSEProtection(data):
 
 
 def outputData(data, whichProtection):
-    f = open('output/SabotageSAS_withProtection{}.mup'.format(whichProtection), 'w')
+    f = open('output_parse/SabotageSAS_withProtection{}.mup'.format(whichProtection), 'w')
     json.dump(data, f)
     f.close()
 

@@ -157,7 +157,6 @@ def embedMMSProtectionOurTree(resDict):
     relevantSubTree4 = resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["MITM attack which manipulates measurement values sent to the SCADA"]
     includeProtectionRecursively(relevantSubTree4, protectionName)
 
-#i think we need to do with sets, enable more protections
 def embedGOOSEandMMSProtectionOurTree(resDict):
     protectionName1 = "protect_GOOSE_with_MAC"
     protectionName2 = "protect_MMS_with_TLS"
@@ -184,11 +183,19 @@ def embedGOOSEProtectionOurTree(resDict):
     relevantSubTree3 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["MITM attack which sends a command to circuit breaker IED"]
     includeProtectionRecursively(relevantSubTree3, protectionName)
 
+def embedPhysicalProtections(currentNode, dataDict):
+    protectionName = "include_physical_protections"
+    if "rogue device" in currentNode:
+        includeProtectionRecursively(dataDict[currentNode], protectionName)
+        return
+    childs = (dataDict[currentNode]["children"]).copy() #only keys should be here, so we do not iterate on dictionary
+    for child in childs:
+        embedPhysicalProtections(child, dataDict[currentNode]["children"])
+
 
 f = open('jsonfile/SabotageSAS.mup', 'r')
 data = json.load(f)
 
-#dobro, čini se da mi od ovih vršnih podataka ne treba ništa
 resDict = parseJson(data)
 #print (resDict)
 
@@ -201,12 +208,10 @@ resDict = parseJson(data)
 #embedMMSProtectionOurTree(resDict)
 #embedGOOSEandMMSProtectionOurTree(resDict)
 #embedGOOSEProtectionOurTree(resDict)
-#print(resDict)
-titl = "Sabotage IEC 61850 SAS"
-deleteNodesAffectedByDisablyingRougeDevice(titl, resDict)
-
-
 title = "Sabotage IEC 61850 SAS"
+#embedPhysicalProtections(title, resDict)
+#print(resDict)
+
 resultingMupDict = parseJsonBackToMup(title, resDict[title])
 finalResultingMupDict = {}
 #not only ideas, but also coold add "id" #root" and so on
