@@ -53,20 +53,32 @@ def deleteNodesAffectedByOnlyGOOSEProtection(data):
     data["ideas"]["1"]["ideas"]["0.75"]["ideas"].pop("4")
 
 
+def deleteNodesAffectedByPhysicalProtections(data):
+    if not("ideas" in data):
+        return
+    keys = list(data["ideas"])
+    for key in keys:
+        if "rogue device" in data["ideas"][key]["title"]:
+            data["ideas"].pop(key)
+        else:
+            deleteNodesAffectedByPhysicalProtections(data["ideas"][key])
+
 def outputData(data, whichProtection):
     f = open('output_parse/SabotageSAS_withProtection{}.mup'.format(whichProtection), 'w')
     json.dump(data, f)
     f.close()
 
 
-#f = open('jsonfile/SabotageSAS.mup', 'r')
-#data = json.load(f)
-#deleteNodesAffectedBySMVProtection(data)
+f = open('jsonfile/SabotageSAS.mup', 'r')
+data = json.load(f)
+deleteNodesAffectedBySMVProtection(data)
 #outputData(data, "SMV")
-#deleteNodesAffectedByOnlyMMSProtection(data)
+deleteNodesAffectedByOnlyMMSProtection(data)
 #outputData(data, "OnlyMMS")
-#deleteNodesAffectedByGOOSEandMMSProtection(data)
-#outputData(data, "GOOSEandMMS")
-#deleteNodesAffectedByOnlyGOOSEProtection(data)
+deleteNodesAffectedByGOOSEandMMSProtection(data)
+#outputData(data, "GOOSEandMMS")#deleteNodesAffectedByOnlyGOOSEProtection(data)
 #outputData(data, "OnlyGOOSE")
-#f.close()
+deleteNodesAffectedByPhysicalProtections(data)
+#outputData(data, "PhysicalProtections")
+outputData(data, "AllProtections")
+f.close()
