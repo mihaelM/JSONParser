@@ -57,9 +57,6 @@ def generateAttrDictionary(shape, position):
         genAttrDict["style"]["text"]["color"] = "#000000"
     return genAttrDict
 
-#for the beginning just try to get something that is kind of mup (it does not necessary have to open, but it is the end goal currently)
-#does not work, maybe because of id
-#i enabled id still does not work
 some_number = 0
 def parseJsonBackToMup(title, dataDict):
     global some_number
@@ -74,7 +71,6 @@ def parseJsonBackToMup(title, dataDict):
         resultingMupDict["ideas"][some_number] = parseJsonBackToMup(child, dataDict["children"][child])
 
     return resultingMupDict
-
 
 
 # "Directly send manipulated measurement values to IED with process bus rogue device"
@@ -112,19 +108,19 @@ def deleteNodesAffectedByGOOSEandMMSProtectionOurTree(resDict):
 #Directly send a command to circuit breaker IED with process bus rogue device
 #Directly send a command to circuit breaker IED from process bus switch
 #MITM attack which sends a command to circuit breaker IED
-def deleteNodesAffectedByOnlyGOOSEProtection(resDict):
+def deleteNodesAffectedByOnlyGOOSEProtectionOurTree(resDict):
     resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"][ "Directly send a command to circuit breaker IED"]["children"].pop( "Directly send a command to circuit breaker IED with process bus rogue device")
     resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"][ "Directly send a command to circuit breaker IED"]["children"].pop( "Directly send a command to circuit breaker IED from process bus switch")
     resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"].pop("MITM attack which sends a command to circuit breaker IED")
 
 
-def deleteNodesAffectedByDisablyingRougeDevice(currentNode, dataDict):
+def deleteNodesAffectedByDisablyingRougeDeviceOurTree(currentNode, dataDict):
     if "rogue device" in currentNode:
         dataDict.pop(currentNode)
         return
     childs = (dataDict[currentNode]["children"]).copy() #only keys should be here, so we do not iterate on dictionary
     for child in childs:
-        deleteNodesAffectedByDisablyingRougeDevice(child, dataDict[currentNode]["children"])
+        deleteNodesAffectedByDisablyingRougeDeviceOurTree(child, dataDict[currentNode]["children"])
 
 def includeProtectionRecursively(relevantDict, protectionName):
     if "protection" in relevantDict:
@@ -135,7 +131,6 @@ def includeProtectionRecursively(relevantDict, protectionName):
 
     for child in relevantDict["children"]:
         includeProtectionRecursively(relevantDict["children"][child], protectionName)
-
 
 def embedSMVProtectionOurTree(resDict):
     protectionName = "protect_SMV_with_MAC"
@@ -173,7 +168,6 @@ def embedGOOSEandMMSProtectionOurTree(resDict):
     includeProtectionRecursively(relevantSubTree4, protectionName1)
     includeProtectionRecursively(relevantSubTree4, protectionName2)
 
-
 def embedGOOSEProtectionOurTree(resDict):
     protectionName = "protect_GOOSE_with_MAC"
     relevantSubTree1 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"][ "Directly send a command to circuit breaker IED"]["children"]["Directly send a command to circuit breaker IED with process bus rogue device"]
@@ -192,17 +186,16 @@ def embedPhysicalProtections(currentNode, dataDict):
     for child in childs:
         embedPhysicalProtections(child, dataDict[currentNode]["children"])
 
-
 f = open('jsonfile/SabotageSAS.mup', 'r')
 data = json.load(f)
 
 resDict = parseJson(data)
-#print (resDict)
+#print(resDict)
 
 #deleteNodesAffectedBySMVProtectionOurTree(resDict)
 #deleteNodesAffectedByOnlyMMSProtectionOurTree(resDict)
 #deleteNodesAffectedByGOOSEandMMSProtectionOurTree(resDict)
-#deleteNodesAffectedByOnlyGOOSEProtection(resDict)
+#deleteNodesAffectedByOnlyGOOSEProtectionOurTree(resDict)
 
 #embedSMVProtectionOurTree(resDict)
 #embedMMSProtectionOurTree(resDict)
@@ -214,7 +207,6 @@ title = "Sabotage IEC 61850 SAS"
 
 resultingMupDict = parseJsonBackToMup(title, resDict[title])
 finalResultingMupDict = {}
-#not only ideas, but also coold add "id" #root" and so on
 finalResultingMupDict["attr"] = {}
 finalResultingMupDict["attr"]["theme"] = "straightlines"
 finalResultingMupDict["formatVersion"] = 3
