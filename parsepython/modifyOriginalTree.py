@@ -64,7 +64,7 @@ def deleteNodesAffectedByPhysicalProtections(data):
             deleteNodesAffectedByPhysicalProtections(data["ideas"][key])
 
 def outputData(data, whichProtection):
-    f = open('output_parse/SabotageSAS_withProtection{}.mup'.format(whichProtection), 'w')
+    f = open('output_original_tree/SabotageSAS_withProtection{}.mup'.format(whichProtection), 'w')
     json.dump(data, f)
     f.close()
 
