@@ -153,20 +153,15 @@ def embedMMSProtectionOurTree(resDict):
     includeProtectionRecursively(relevantSubTree4, protectionName)
 
 def embedGOOSEandMMSProtectionOurTree(resDict):
-    protectionName1 = "protect_GOOSE_with_MAC"
-    protectionName2 = "protect_MMS_with_TLS"
+    protectionName = "protect_GOOSE_with_MAC + protect_MMS_with_TLS"
     relevantSubTree1 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["Directly send a command to IED"]["children"]["Directly send a command to IED with station bus rogue device"]
-    includeProtectionRecursively(relevantSubTree1, protectionName1)
-    includeProtectionRecursively(relevantSubTree1, protectionName2)
+    includeProtectionRecursively(relevantSubTree1, protectionName)
     relevantSubTree2 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["Directly send a command to IED"]["children"]["Directly send a command to IED from corporate WAN"]
-    includeProtectionRecursively(relevantSubTree2, protectionName1)
-    includeProtectionRecursively(relevantSubTree2, protectionName2)
+    includeProtectionRecursively(relevantSubTree2, protectionName)
     relevantSubTree3 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["Directly send a command to IED"]["children"]["Directly send a command to IED from station bus switch"]
-    includeProtectionRecursively(relevantSubTree3, protectionName1)
-    includeProtectionRecursively(relevantSubTree3, protectionName2)
+    includeProtectionRecursively(relevantSubTree3, protectionName)
     relevantSubTree4 = resDict["Sabotage IEC 61850 SAS"]["children"]["Send a command to control element"]["children"]["MITM attack which sends a command to IED"]
-    includeProtectionRecursively(relevantSubTree4, protectionName1)
-    includeProtectionRecursively(relevantSubTree4, protectionName2)
+    includeProtectionRecursively(relevantSubTree4, protectionName)
 
 def embedGOOSEProtectionOurTree(resDict):
     protectionName = "protect_GOOSE_with_MAC"
@@ -197,14 +192,17 @@ resDict = parseJson(data)
 #deleteNodesAffectedByGOOSEandMMSProtectionOurTree(resDict)
 #deleteNodesAffectedByOnlyGOOSEProtectionOurTree(resDict)
 
-#embedSMVProtectionOurTree(resDict)
-#embedMMSProtectionOurTree(resDict)
-#embedGOOSEandMMSProtectionOurTree(resDict)
-#embedGOOSEProtectionOurTree(resDict)
-title = "Sabotage IEC 61850 SAS"
-#embedPhysicalProtections(title, resDict)
-#print(resDict)
+embedSMVProtectionOurTree(resDict)
+embedMMSProtectionOurTree(resDict)
+embedGOOSEandMMSProtectionOurTree(resDict)
+embedGOOSEProtectionOurTree(resDict)
 
+
+title = "Sabotage IEC 61850 SAS"
+embedPhysicalProtections(title, resDict)
+print(resDict)
+
+"""
 resultingMupDict = parseJsonBackToMup(title, resDict[title])
 finalResultingMupDict = {}
 finalResultingMupDict["attr"] = {}
@@ -218,3 +216,4 @@ finalResultingMupDict["links"] = []
 
 finalJson = json.dumps(finalResultingMupDict)
 print (finalJson)
+"""
