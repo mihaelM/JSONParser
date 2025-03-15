@@ -76,7 +76,7 @@ def parseJsonBackToMup(title, dataDict):
 # "Directly send manipulated measurement values to IED with process bus rogue device"
 # "Directly send manipulated measurement values to IED from process bus switch"
 # "MITM attack which manipulates measurement values sent to IED"
-def deleteNodesAffectedBySMVProtectionOurTree(resDict):
+def deleteNodesAffectedBySVProtectionOurTree(resDict):
     resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to IED"]["children"].pop("Directly send manipulated measurement values to IED with process bus rogue device")
     resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"]["Directly send manipulated measurement values to IED"]["children"].pop("Directly send manipulated measurement values to IED from process bus switch")
     resDict["Sabotage IEC 61850 SAS"]["children"]["Manipulate measurement values"]["children"].pop("MITM attack which manipulates measurement values sent to IED")
@@ -187,7 +187,7 @@ data = json.load(f)
 resDict = parseJson(data)
 #print(resDict)
 
-#deleteNodesAffectedBySMVProtectionOurTree(resDict)
+#deleteNodesAffectedBySVProtectionOurTree(resDict)
 #deleteNodesAffectedByOnlyMMSProtectionOurTree(resDict)
 #deleteNodesAffectedByGOOSEandMMSProtectionOurTree(resDict)
 #deleteNodesAffectedByOnlyGOOSEProtectionOurTree(resDict)
