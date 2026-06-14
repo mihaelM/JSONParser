@@ -238,7 +238,3 @@ finalResultingMupDict["links"] = []
 
 finalJson = json.dumps(finalResultingMupDict)
 print (finalJson)
-
-
-#mogu sam smisliti i nakodirati kako maknuti "positon", mislim to je samo rekurzivni obilizak stabla i micanje "position", ali OK
-#također, ovaj drugi dio, provjeriti nazad da li je ovo generirano dobro je još lakši
