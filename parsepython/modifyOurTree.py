@@ -1,4 +1,5 @@
 import json
+import copy
 
 def parseJson(data):
     resultingDict = {}
@@ -63,7 +64,10 @@ def parseJsonBackToMup(title, dataDict):
     resultingMupDict = {}
     resultingMupDict["title"] = title
     resultingMupDict["id"] = some_number + 1
-    resultingMupDict["attr"] = generateAttrDictionary(dataDict["shape"], dataDict["position"])
+    try:
+        resultingMupDict["attr"] = generateAttrDictionary(dataDict["shape"], dataDict["position"])
+    except:
+        pass
     resultingMupDict["ideas"] = {}
 
     for child in dataDict["children"]:
@@ -181,17 +185,33 @@ def embedPhysicalProtections(currentNode, dataDict):
     for child in childs:
         embedPhysicalProtections(child, dataDict[currentNode]["children"])
 
+
+def removePosition(currentNode, resDict2):
+    resDict2[currentNode].pop("position", None)
+    try:
+        for key in resDict2[currentNode]["children"].keys():
+            removePosition(key, resDict2[currentNode]["children"])
+    except:
+        return
+
+
+
+
 f = open('jsonfile/SabotageSAS.mup', 'r')
 data = json.load(f)
 
 resDict = parseJson(data)
-#print(resDict)
+
+resDict2 = copy.deepcopy(resDict)
+removePosition(list(resDict2.keys())[0], resDict2)
+#print(resDict2)
 
 #deleteNodesAffectedBySVProtectionOurTree(resDict)
 #deleteNodesAffectedByOnlyMMSProtectionOurTree(resDict)
 #deleteNodesAffectedByGOOSEandMMSProtectionOurTree(resDict)
 #deleteNodesAffectedByOnlyGOOSEProtectionOurTree(resDict)
 
+"""
 embedSMVProtectionOurTree(resDict)
 embedMMSProtectionOurTree(resDict)
 embedGOOSEandMMSProtectionOurTree(resDict)
@@ -201,9 +221,11 @@ embedGOOSEProtectionOurTree(resDict)
 title = "Sabotage IEC 61850 SAS"
 embedPhysicalProtections(title, resDict)
 print(resDict)
-
 """
-resultingMupDict = parseJsonBackToMup(title, resDict[title])
+
+title = "Sabotage IEC 61850 SAS"
+
+resultingMupDict = parseJsonBackToMup(title, resDict2[title])
 finalResultingMupDict = {}
 finalResultingMupDict["attr"] = {}
 finalResultingMupDict["attr"]["theme"] = "straightlines"
@@ -216,4 +238,7 @@ finalResultingMupDict["links"] = []
 
 finalJson = json.dumps(finalResultingMupDict)
 print (finalJson)
-"""
+
+
+#mogu sam smisliti i nakodirati kako maknuti "positon", mislim to je samo rekurzivni obilizak stabla i micanje "position", ali OK
+#također, ovaj drugi dio, provjeriti nazad da li je ovo generirano dobro je još lakši
