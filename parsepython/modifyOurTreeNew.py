@@ -233,8 +233,8 @@ finalResultingMupDict["formatVersion"] = 3
 finalResultingMupDict["id"] = "root"
 finalResultingMupDict["ideas"] = {}
 finalResultingMupDict["ideas"]["1"] = resultingMupDict
-finalResultingMupDict["title"] = "Compromise (P)RNG Somehow"
-finalResultingMupDict["links"] = []
+#finalResultingMupDict["title"] = "Compromise (P)RNG Somehow"
+#finalResultingMupDict["links"] = []
 
 finalJson = json.dumps(finalResultingMupDict)
 print (finalJson)
