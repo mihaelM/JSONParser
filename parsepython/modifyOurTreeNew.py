@@ -194,7 +194,13 @@ def removePosition(currentNode, resDict2):
     except:
         return
 
-
+def removeShape(currentNode, resDict3):
+    resDict3[currentNode].pop("shape", None)
+    try:
+        for key in resDict3[currentNode]["children"].keys():
+            removeShape(key, resDict3[currentNode]["children"])
+    except:
+        return
 
 
 f = open('jsonfile/SabotageSAS.mup', 'r')
@@ -204,7 +210,12 @@ resDict = parseJson(data)
 
 resDict2 = copy.deepcopy(resDict)
 removePosition(list(resDict2.keys())[0], resDict2)
-#print(resDict2)
+
+resDict3 = copy.deepcopy(resDict2)
+
+removeShape(list(resDict3.keys())[0], resDict3)
+
+print(resDict3)
 
 #deleteNodesAffectedBySVProtectionOurTree(resDict)
 #deleteNodesAffectedByOnlyMMSProtectionOurTree(resDict)
@@ -237,4 +248,4 @@ finalResultingMupDict["ideas"]["1"] = resultingMupDict
 #finalResultingMupDict["links"] = []
 
 finalJson = json.dumps(finalResultingMupDict)
-print (finalJson)
+#print (finalJson)
