@@ -202,20 +202,32 @@ def removeShape(currentNode, resDict3):
     except:
         return
 
+def swapEmtpyList(currentNode, resDict4):
+    try:
+        if len(resDict4[currentNode]["children"]) == 0:
+            resDict4[currentNode]["children"] = {}
+    except:
+        pass
+    try:
+        for key in resDict4[currentNode]["children"].keys():
+            swapEmtpyList(key, resDict4[currentNode]["children"])
+    except:
+        return
 
 f = open('jsonfile/SabotageSAS.mup', 'r')
 data = json.load(f)
-
 resDict = parseJson(data)
-
 resDict2 = copy.deepcopy(resDict)
 removePosition(list(resDict2.keys())[0], resDict2)
-
 resDict3 = copy.deepcopy(resDict2)
-
 removeShape(list(resDict3.keys())[0], resDict3)
+resDict4 = copy.deepcopy(resDict3)
+swapEmtpyList(list(resDict4.keys())[0], resDict4)
 
-print(resDict3)
+print(resDict4)
+
+
+
 
 #deleteNodesAffectedBySVProtectionOurTree(resDict)
 #deleteNodesAffectedByOnlyMMSProtectionOurTree(resDict)
